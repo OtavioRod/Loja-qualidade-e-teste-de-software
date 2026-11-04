@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Loja Aurora</title>
+    <link rel="icon" href="/favicon.svg">
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+    <header class="site-header">
+      <a class="brand" href="#catalogo">Loja Aurora</a>
+      <div class="search-wrap">
+        <input id="search" type="search" placeholder="Buscar no catálogo" data-testid="search" autocomplete="off">
+      </div>
+      <nav class="nav" aria-label="Principal">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#carrinho" data-testid="nav-cart">Carrinho <span id="cart-count">0</span></a>
+        <a href="#pedidos">Pedidos</a>
+        <a href="#admin" id="nav-admin" hidden>Administração</a>
+        <a href="#entrar" id="nav-login">Entrar</a>
+        <button type="button" id="logout-button" hidden>Sair</button>
+      </nav>
+    </header>
+    <p id="session-chip" class="session-chip" data-testid="session-chip"></p>
+    <main id="conteudo">
+      <section data-view="catalog" id="view-catalog">
+        <div class="section-heading">
+          <h1>Catálogo</h1>
+          <p>Material escolar, eletrônicos e acessórios para o dia a dia.</p>
+        </div>
+        <div id="catalog-toolbar" class="toolbar">
+          <label>Categoria</label>
+          <select id="category-filter" data-testid="category-filter">
+            <option value="">Todas</option>
+          </select>
+          <button type="button" id="refresh-catalog" data-testid="refresh-catalog">Atualizar lista</button>
+        </div>
+        <div id="catalog-grid" class="product-grid" data-testid="catalog-grid"></div>
+      </section>
+
+      <section data-view="cart" id="view-cart" hidden>
+        <h1>Carrinho</h1>
+        <div id="cart-content" data-testid="cart-content"></div>
+        <div id="checkout-box" data-testid="checkout-box" hidden>
+          <h2>Cupom e entrega</h2>
+          <div class="inline-field">
+            <label>Cupom</label>
+            <input id="coupon-code" data-testid="coupon-code" placeholder="Código do cupom" autocomplete="off">
+            <span class="button button-secondary" id="apply-coupon" data-testid="apply-coupon">Aplicar cupom</span>
+          </div>
+          <p id="coupon-feedback" class="feedback" data-testid="coupon-feedback"></p>
+          <div class="form-grid">
+            <div>
+              <label>Rua</label>
+              <input id="addr-street" data-testid="addr-street" placeholder="Rua" autocomplete="street-address">
+            </div>
+            <div>
+              <label>Número</label>
+              <input id="addr-number" data-testid="addr-number" placeholder="Número">
+            </div>
+            <div>
+              <label>Bairro</label>
+              <input id="addr-district" data-testid="addr-district" placeholder="Bairro">
+            </div>
+            <div>
+              <label>Cidade</label>
+              <input id="addr-city" data-testid="addr-city" placeholder="Cidade">
+            </div>
+            <div>
+              <label>UF</label>
+              <input id="addr-state" data-testid="addr-state" placeholder="UF" maxlength="2">
+            </div>
+            <div>
+              <label>CEP</label>
+              <input id="addr-zip" data-testid="addr-zip" placeholder="CEP" autocomplete="postal-code">
+            </div>
+          </div>
+          <button type="button" id="checkout-button" class="button button-primary" data-testid="checkout-button">Finalizar pedido</button>
+          <p id="checkout-feedback" class="feedback" data-testid="checkout-feedback"></p>
+          <div id="receipt" data-testid="receipt"></div>
+        </div>
+      </section>
+
+      <section data-view="orders" id="view-orders" hidden>
+        <h1>Meus pedidos</h1>
+        <p id="orders-status" data-testid="orders-status"></p>
+        <div id="orders-list" class="stack" data-testid="orders-list"></div>
+      </section>
+
+      <section data-view="login" id="view-login" hidden>
+        <h1>Entrar</h1>
+        <form id="login-form" class="panel">
+          <div>
+            <label>E-mail</label>
+            <input id="login-email" data-testid="login-email" placeholder="E-mail" autocomplete="username">
+          </div>
+          <div>
+            <label>Senha</label>
+            <input id="login-password" data-testid="login-password" type="password" placeholder="Senha" autocomplete="current-password">
+          </div>
+          <button type="submit" class="button button-primary">Entrar</button>
+          <p id="login-error" class="feedback" data-testid="login-error"></p>
+          <p><a href="#cadastro">Criar uma conta</a></p>
+        </form>
+      </section>
+
+      <section data-view="register" id="view-register" hidden>
+        <h1>Cadastro</h1>
+        <form id="register-form" class="panel">
+          <div>
+            <label for="register-name">Nome</label>
+            <input id="register-name" data-testid="register-name" placeholder="Nome" autocomplete="name">
+          </div>
+          <div>
+            <label>E-mail</label>
+            <input id="register-email" data-testid="register-email" placeholder="E-mail" autocomplete="email">
+          </div>
+          <div>
+            <label>Senha</label>
+            <input id="register-password" data-testid="register-password" type="password" placeholder="Senha" autocomplete="new-password">
+          </div>
+          <button type="submit" class="button button-primary">Criar conta</button>
+          <p id="register-error" class="feedback" data-testid="register-error"></p>
+        </form>
+      </section>
+
+      <section data-view="admin" id="view-admin" hidden>
+        <h1>Administração</h1>
+        <p id="admin-status" data-testid="admin-status"></p>
+        <div id="admin-products" data-testid="admin-products"></div>
+        <h2>Novo produto</h2>
+        <form id="new-product-form" class="panel">
+          <div>
+            <label>Nome</label>
+            <input id="new-product-name" data-testid="new-product-name">
+          </div>
+          <div>
+            <label>Preço</label>
+            <input id="new-product-price" data-testid="new-product-price">
+          </div>
+          <div>
+            <label>Estoque</label>
+            <input id="new-product-stock" data-testid="new-product-stock">
+          </div>
+          <button type="submit" class="button button-primary">Cadastrar produto</button>
+          <p id="new-product-error" class="feedback"></p>
+        </form>
+        <h2>Pedidos da loja</h2>
+        <div id="admin-orders" data-testid="admin-orders"></div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <p>Loja Aurora — ambiente local com dados fictícios.</p>
+    </footer>
+    <script src="/js/format.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/catalog.js"></script>
+    <script src="/js/cart.js"></script>
+    <script src="/js/orders.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/main.js"></script>
+    
+  </body>
+</html>
