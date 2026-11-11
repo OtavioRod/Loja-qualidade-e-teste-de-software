@@ -9,7 +9,9 @@
     "reset": "node scripts/restore.js",
     "restore": "node scripts/restore.js",
     "generate": "node scripts/generate.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "test:load": "node scripts/performance.js --scenario load",
+    "test:stress": "node scripts/performance.js --scenario stress"
   },
   "engines": {
     "node": ">=18"

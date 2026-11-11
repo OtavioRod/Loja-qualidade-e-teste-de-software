@@ -92,6 +92,29 @@ npm run generate -- --products 4000 --orders 2000
 
 Os dois números podem ser alterados. Reinicie o servidor depois de gerar os dados. Ao terminar a prática, cada dupla executa `npm run reset` para voltar aos mesmos dados.
 
+## Testes de carga e estresse
+
+Inicie a loja local (`npm start`) e, em outro terminal, execute um dos roteiros:
+
+```bash
+npm run test:load
+npm run test:stress
+```
+
+O teste de carga usa etapas de 5, 10 e 20 usuários virtuais; o de estresse usa 10, 20, 40, 60 e, por fim, 10 usuários para observar a recuperação. Cada etapa dura 5 segundos por padrão. O perfil repete consultas ao catálogo (60%), consultas com detalhe do produto (30%) e uma cotação de carrinho sem finalizar pedido (10%). As requisições não fazem login, não alteram estoque e não gravam pedidos.
+
+O script aceita somente `http://127.0.0.1` ou `http://localhost`, para evitar gerar carga acidental em serviços externos. Para adaptar o roteiro, use variáveis de ambiente no PowerShell:
+
+```powershell
+$env:PERF_STAGE_SECONDS=10
+$env:PERF_THINK_TIME_MS=100
+npm run test:load
+```
+
+`PERF_STAGE_SECONDS` aceita de 1 a 60 segundos e `PERF_THINK_TIME_MS`, de 0 a 5000 ms. Os limites de aprovação ilustrativos são p95 de até 2 segundos e falhas técnicas abaixo de 1%; podem ser ajustados com `PERF_P95_LIMIT_MS` e `PERF_ERROR_RATE_LIMIT_PERCENT`. O teste de estresse registra quando os limites são ultrapassados, mas só reprova o processo se as verificações falharem ou a etapa final de recuperação exceder os limites.
+
+Os resultados por etapa incluem usuários virtuais, duração, quantidade de requisições, p50, p95, vazão, falhas e aprovação dos critérios. A vazão observada é do ambiente local e não comprova capacidade de produção. Para voltar aos dados iniciais depois de uma prática que alterou a loja, pare o servidor e execute `npm run reset`.
+
 ## Organização
 
 - `public` — interface
